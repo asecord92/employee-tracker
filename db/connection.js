@@ -21,7 +21,7 @@ async function getEmployees() {
     INNER JOIN roles
     ON employee.role_id = roles.id
     LEFT JOIN department 
-    ON roles.department_id = department_id
+    ON roles.department_id = department.id
     GROUP BY (id)
     ORDER BY last_name `;
     const result =  await db.execute(sql);
@@ -29,23 +29,53 @@ async function getEmployees() {
 };
 
 async function getDepartment() {
+    const sql = `SELECT department.id, department.name AS Department FROM department`
 
+    const result = await db.execute(sql);
+    return result[0];
 };
 
 async function getRoles() {
+    const sql = `SELECT roles.id as Role_ID, roles.title as Title, roles.salary,  department.name as Department
+    FROM roles
+    LEFT JOIN department
+    ON roles.department_id = department.id`
+
+    const result = await db.execute(sql);
+    return result[0];
+};
+
+async function addRole(title, salary, department_id) {
+    const sql = `INSERT INTO roles (title, salary, department_id)
+    VALUES(?, ?, ?)`
+
+    const params = [title, salary, department_id]
+
+    const result = await db.execute(sql, params);
+    return console.log("success");
+
 
 };
 
-async function addRole() {
+async function addDepartment(name) {
+    const sql = `INSERT INTO department (name)
+    VALUES(?)`
+
+    const params = [name];
+
+    const result = await db.execute(sql, params);
+    return console.log("success");
 
 };
 
-async function addDepartment() {
+async function addEmployee(first_name, last_name, role_id) {
+    const sql = `INSERT INTO employee (first_name, last_name, role_id)
+    VALUES(?, ?, ?)`
 
-};
+    const params = [first_name, last_name, role_id]
 
-async function addEmployee() {
-
+    const result = await db.execute(sql, params);
+    return console.log("success");
 };
 
 async function updateEmployee() {
