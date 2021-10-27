@@ -8,10 +8,15 @@ INSERT INTO roles (title, salary, department_id)
 VALUES
     ('Sales Lead', 80000, 1),
     ('CFO', 120000, 2),
-    ('Leed Engineer', 110000, 3),
+    ('Lead Engineer', 110000, 3),
     ('Salesperson', 55000, 1),
     ('Accountant', 90000, 2),
     ('Software Engineer', 80000,3);
+INSERT INTO manager(full_name)
+VALUES
+    ('Michael Robertson'),
+    ('Donna Swete'),
+    ('Erin Swete');
 
 INSERT INTO employee (first_name, last_name,role_id, manager_id)
 VALUES 

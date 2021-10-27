@@ -6,6 +6,10 @@ const {getEmployees, getDepartment, getRoles, addRole, addDepartment, addEmploye
 
 
 function mainMenu () {
+    console.log(`
+    +-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+
+    |E|m|p|l|o|y|e|e| |T|r|a|c|k|e|r|
+    +-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+`)
     return inquirer
     .prompt(menu)
     .then((answer) => {
@@ -41,6 +45,9 @@ function mainMenu () {
             case "Add Employee":
                 console.clear();
                 return newEmployee();
+            case "Update Employee Role":
+                console.clear();
+                return updateRole();
 
         };
     });
@@ -93,6 +100,27 @@ function newEmployee() {
     })
 
 };
+
+function updateRole() {
+    let updateQ =[];
+    getEmployees()
+    .then((employee) => {
+        updateQ.push(selectEmployeeQuestion(employee));
+        getRoles()
+        .then((roles)=> {
+            updateQ.push(selectRoleQuestion(roles));
+            return inquirer.prompt(updateQ);
+        })
+        .then((answers)=> {
+            console.log(answers);
+            const {id, role_id} = answers;
+            updateEmployee(id, role_id).then((result)=>{
+                console.log(result);
+                return mainMenu();
+            });
+        });
+    });
+};
 function selectRoleQuestion(roles) {
     let options = [];
     for (const {Title, Role_ID} of roles){
@@ -131,6 +159,22 @@ function selectDepartmentQuestion(departments) {
     };
     
 };
+function selectEmployeeQuestion(employee) {
+    let options = [];
+    for ( const {first_name, last_name,id } of employee){
+        const option = {
+            name: first_name + ' ' + last_name,
+            value: id
+        };
+        options.push(option);
+    }
+    return {
+        type: "list",
+        name: "id",
+        message: "Select Employee",
+        choices: options
+    }
+}
 mainMenu();
 
 

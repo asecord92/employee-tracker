@@ -6,7 +6,11 @@ CREATE TABLE department (
     id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     name VARCHAR(30)
 );
-
+CREATE TABLE manager (
+    id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    full_name VARCHAR(30)
+    
+);
 CREATE TABLE roles(
     id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     title VARCHAR(30),
@@ -27,6 +31,6 @@ CREATE TABLE employee (
     REFERENCES roles(id)
     ON DELETE SET NULL,
     FOREIGN KEY (manager_id)
-    REFERENCES roles(id)
+    REFERENCES manager(id)
     ON DELETE SET NULL
 );

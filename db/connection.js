@@ -16,12 +16,14 @@ const db =  mysql.createPool(
 
 
 async function getEmployees() {
-    const sql =`SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id, roles.title as Title, roles.salary as Salary, department.name as Department
+    const sql =`SELECT employee.id, employee.first_name, employee.last_name, roles.title as Title, roles.salary as Salary, department.name as Department, manager.full_name as Manager
     FROM employee
     INNER JOIN roles
     ON employee.role_id = roles.id
-    LEFT JOIN department 
+    INNER JOIN department 
     ON roles.department_id = department.id
+    LEFT JOIN manager
+    on employee.manager_id = manager.id
     GROUP BY (id)
     ORDER BY last_name `;
     const result =  await db.execute(sql);
@@ -78,8 +80,15 @@ async function addEmployee(first_name, last_name, role_id) {
     return console.log("success");
 };
 
-async function updateEmployee() {
+async function updateEmployee(id, role_id) {
+    console.log(id, role_id);
+    const sql = `UPDATE employee SET role_id = ?
+    WHERE id =?`
+    const params = [role_id,id]
+    console.log(params)
 
+    const result = await db.execute(sql, params);
+    return console.log("success");
 };
 
 
