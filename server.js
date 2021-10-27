@@ -13,7 +13,6 @@ function mainMenu () {
     return inquirer
     .prompt(menu)
     .then((answer) => {
-        console.log(answer);
         switch (answer.menu) {
             case "View All Employees":
                 console.clear();
@@ -112,10 +111,8 @@ function updateRole() {
             return inquirer.prompt(updateQ);
         })
         .then((answers)=> {
-            console.log(answers);
             const {id, role_id} = answers;
             updateEmployee(id, role_id).then((result)=>{
-                console.log(result);
                 return mainMenu();
             });
         });
@@ -142,7 +139,6 @@ function selectRoleQuestion(roles) {
 }
 
 function selectDepartmentQuestion(departments) {
-    console.log(departments)
     let options = [];
     for (const {Department, id} of departments){
         const option = {

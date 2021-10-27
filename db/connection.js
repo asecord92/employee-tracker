@@ -81,11 +81,11 @@ async function addEmployee(first_name, last_name, role_id) {
 };
 
 async function updateEmployee(id, role_id) {
-    console.log(id, role_id);
+  
     const sql = `UPDATE employee SET role_id = ?
     WHERE id =?`
     const params = [role_id,id]
-    console.log(params)
+    
 
     const result = await db.execute(sql, params);
     return console.log("success");
